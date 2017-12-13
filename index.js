@@ -285,31 +285,26 @@ app.post("/sign_in", function(req, res, next){
 
 });
 
-
-//sign up to the page and insert information to users table
-app.post("/sign_up", function(req,res, next){
-  const {username, email, password} = req.body;
-  bcrypt.hash(req.body.password, 12)
-  .then(function(hashed_password){
-    return knex("users")
-     .insert({
-       username,
-       email,
-       hashed_password
-     });
-  }).then(function(){
-    knex("users")
-    .where("username", username)
+// create a user
+// sign up to the page and insert information to users table
+app.post('/sign_up', (req, res, next) => {
+  const { username, email, hashed_password } = req.body;
+  knex('users')
+  .insert({
+    username,
+    email,
+    hashed_password
+  })
+  .then(() => {
+    knex('users')
+    .where('username', username)
     .first()
-    .then(function(user){
-      res.redirect("/users/" + user.id);
+    .then((username) => {
+      console.log(req.body);
+      res.redirect("/users")
     })
-  }).catch(function(err){
-    next(err);
-  });
-});
-
-
+  }).catch((err) => next(err));
+})
 
 app.listen(port, function(){
   console.log("Listening on ", port);
