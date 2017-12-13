@@ -107,7 +107,7 @@ app.get("/users/:id/profile", function(req, res, next){
                 knex("universities")
                 .then(function(data){
                   //console.log("this is data ", data, "this is schools: ", schools)
-                  res.render("profile", {user, profile, post, schools, programs, data});
+                  res.json({user, profile, post, schools, programs, data});
                   }).catch(function(err){
                   console.log(err);
                 });
