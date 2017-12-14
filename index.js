@@ -173,12 +173,6 @@ app.post("/users/:id/newsfeed", function(req, res, next){
    });
 });
 
-
-app.post("//users/:id/profile", function(req,res, next){
-    const id = req.params.id;
-
-})
-
 app.delete("/users/:id/schools/:school_id", function(req, res, next){
   const id = parseInt(req.params.id);
   const school_id = parseInt(req.params.school_id);
@@ -286,7 +280,8 @@ app.post("/sign_in", function(req, res, next){
 });
 
 // create a user
-// sign up to the page and insert information to users table
+// sign up to the page and insert information to
+// users table
 app.post('/sign_up', (req, res, next) => {
   const { username, email, hashed_password } = req.body;
   knex('users')
@@ -304,6 +299,26 @@ app.post('/sign_up', (req, res, next) => {
       res.redirect("/users")
     })
   }).catch((err) => next(err));
+})
+
+// POST personal profile data
+app.post("/profile", function(req, res, next) {
+    const id = req.params.id;
+    const { first_name, last_name, country, city, state, alma_mater, gpa, toefl, ielts, sat } = req.body;
+    knex("students_info")
+    .insert({
+      first_name,
+      last_name,
+      country,
+      city,
+      state,
+      alma_mater,
+      gpa,
+      toefl,
+      ielts,
+      sat
+    })
+    .catch(err => next(err));
 })
 
 app.listen(port, function(){
