@@ -231,10 +231,10 @@ app.post("/users/:id/profile/programs", function(req, res, next){
 //create and post personal information to students table
 app.post("/users/:id", function(req, res, next){
   const id = req.params.id;
-  const {name, last_name, country, city, state, alma_mater, gpa, toefl, ielts, sat} = req.body;
-     knex("students")
+  const {first_name, last_name, country, city, state, alma_mater, gpa, toefl, ielts, sat} = req.body;
+     knex("students_info")
      .insert({
-       name: name,
+       first_name: first_name,
        last_name: last_name,
        country: country,
        city: city,
@@ -243,13 +243,8 @@ app.post("/users/:id", function(req, res, next){
        gpa: gpa,
        toefl: toefl,
        ielts: ielts,
-       sat:sat,
-       user_id: id
-     }).then(function(){
-         res.redirect("/users/" + id  + "/profile")
-       }).catch(function(err){
-         console.log(err);
-       });
+       sat:sat
+     }).catch(err => next(err));
 });
 
 
