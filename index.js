@@ -129,6 +129,15 @@ app.get("/users", function(req, res, next){
    });
 });
 
+app.get("/students_info", function(req, res, next){
+   knex("students_info")
+    .then(function(result){
+         console.log("List of result", result);
+         res.json(result);
+   }).catch(function(err){
+     console.log(err);
+   });
+});
 
 app.get("/users/:id", function(req, res, next){
    const id = req.params.id;
