@@ -153,24 +153,36 @@ app.get("/users/:id", function(req, res, next){
 });
 
 //to create and post a personal statement
-app.post("/users/:id/profile/statement", function(req, res, next){
-  const id = req.params.id;
-  const {title, post} = req.body;
-  knex("users")
-   .where("id", id)
-   .first()
-   .then(function(user){
-      knex("statement")
-      .insert({
-        title: title,
-        post: post,
-        user_id: id
-     }).then(function(){
-    res.redirect("/users/" + id + "/profile" )
-   });
- });
-});
+// app.post("/users/:id/profile/statement", function(req, res, next){
+//   const id = req.params.id;
+//   const {title, post} = req.body;
+//   knex("users")
+//    .where("id", id)
+//    .first()
+//    .then(function(user){
+//       knex("statement")
+//       .insert({
+//         title: title,
+//         post: post,
+//         user_id: id
+//      }).then(function(){
+//     res.redirect("/users/" + id + "/profile" )
+//    });
+//  });
+// });
 
+// current Personal Statement POST requests
+// needs to be refactored to reflect user_id
+// see above commented out function ^
+app.post("/users/statement", function(req, res, next) {
+  const {title, post} = req.body;
+  knex("statement")
+  .insert({
+    title: title,
+    post: post
+  })
+  .catch(err => next(err))
+})
 
 app.post("/users/:id/newsfeed", function(req, res, next){
   const id = req.params.id;
